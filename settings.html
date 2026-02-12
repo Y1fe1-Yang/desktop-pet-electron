@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desktop Pet Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #667eea;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .setting-group {
+      margin-bottom: 25px;
+    }
+
+    .setting-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .setting-value {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    /* Slider styles */
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #ddd;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      background: #764ba2;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.2);
+      background: #764ba2;
+    }
+
+    /* Toggle switch styles */
+    .toggle-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .toggle-label {
+      font-weight: 500;
+      color: #444;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 26px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #667eea;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    .divider {
+      height: 1px;
+      background: #e0e0e0;
+      margin: 25px 0;
+    }
+
+    .info-text {
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    .save-status {
+      text-align: center;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .save-status.success {
+      background: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .save-status.error {
+      background: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Desktop Pet Settings</h1>
+    <p class="subtitle">Customize your pet's behavior</p>
+
+    <!-- Animation Speed -->
+    <div class="setting-group">
+      <div class="setting-label">
+        <span>Animation Speed</span>
+        <span class="setting-value" id="animation-speed-value">1.0x</span>
+      </div>
+      <input
+        type="range"
+        id="animation-speed"
+        min="0.5"
+        max="2.0"
+        step="0.1"
+        value="1.0"
+      >
+    </div>
+
+    <!-- Movement Speed -->
+    <div class="setting-group">
+      <div class="setting-label">
+        <span>Movement Speed</span>
+        <span class="setting-value" id="movement-speed-value">1.0x</span>
+      </div>
+      <input
+        type="range"
+        id="movement-speed"
+        min="0.5"
+        max="2.0"
+        step="0.1"
+        value="1.0"
+      >
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Sound Toggle -->
+    <div class="toggle-container">
+      <span class="toggle-label">Enable Sounds</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="sound-enabled" checked>
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Auto-start Toggle -->
+    <div class="toggle-container">
+      <span class="toggle-label">Launch at Startup</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="auto-start">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <!-- Save Status -->
+    <div class="save-status" id="save-status"></div>
+
+    <!-- Info -->
+    <div class="info-text">
+      Settings are saved automatically.<br>
+      Changes take effect immediately.
+    </div>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>
